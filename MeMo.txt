@@ -1,0 +1,9 @@
+
+HttpClient Documents
+https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient?view=net-7.0
+
+Make HTTP request with the HttpClient Class
+https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/httpclient
+
+FinaviaApi
+https://developer.finavia.fi/
