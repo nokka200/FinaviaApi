@@ -7,7 +7,9 @@ namespace Finaviaapi
         static async Task Main(string[] args)
         {
            // Tester.ApiConnectorTestProperties();
-           await Tester.ApiConnectorTestConnection();
+           //await Tester.ApiConnectorTestConnection();
+
+           await Tester.ApiConnectorTestArrivaAirport(3);
         }
     }
 }
