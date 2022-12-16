@@ -9,7 +9,8 @@ namespace Finaviaapi
            // Tester.ApiConnectorTestProperties();
            //await Tester.ApiConnectorTestConnection();
 
-           await Tester.ApiConnectorTestArrivaAirport(3);
+           var re = Tester.ApiConnectorTestArrivaAirport(3);
+           await re;
         }
     }
 }

@@ -7,3 +7,9 @@ https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/httpclient
 
 FinaviaApi
 https://developer.finavia.fi/
+
+xml
+https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/serialization/how-to-read-object-data-from-an-xml-file
+
+Read XML data from a URL
+https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/csharp/language-compilers/read-xml-data-from-url?source=recommendations
