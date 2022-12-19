@@ -6,14 +6,18 @@ namespace Finaviaapi
     {
         static async Task Main(string[] args)
         {
-           // Tester.ApiConnectorTestProperties();
-           //await Tester.ApiConnectorTestConnection();
+            // Tester.ApiConnectorTestProperties();
+            //await Tester.ApiConnectorTestConnection();
 
-           //var re = Tester.ApiConnectorTestArrivaAirport(3);
-           //await re;
+            //var re = Tester.ApiConnectorTestArrivaAirport(3);
+            //await re;
 
-           var re = Tester.WriteToFileTestWritingToFile(3);
-           await re;
+            //var re = Tester.WriteToFileTestWritingToFile(3);
+            //await re;
+
+            Tester.SerializeFlight();
+
+            //Tester.XmlDocument();
         }
     }
 }

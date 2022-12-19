@@ -1,5 +1,8 @@
 using Finaviaapi.Http;
 using Finaviaapi.Files;
+using Finaviaapi.Serializer;
+using Finaviaapi.Flight;
+using System.Xml;
 
 namespace Finaviaapi.Util
 {
@@ -61,5 +64,29 @@ namespace Finaviaapi.Util
             WriteToFile.Write("Current", ".xml", re);
         }
 
+        /*Serializer Tests*/
+
+        static public void SerializeFlight()
+        {
+            string currentPath = Directory.GetCurrentDirectory();
+
+            object tempObj = MyObjectSerializer.ReadObject(currentPath + "/TestXml.xml", typeof(FlightTimes));
+        }
+
+        /// <summary>
+        /// Test converting the .xml file to xml object
+        /// </summary>
+        static public void XmlDocument()
+        {
+            string currentPath = Directory.GetCurrentDirectory();
+            string re;
+            XmlDocument docObj = new();
+
+            re = File.ReadAllText(currentPath + "/TestXml.xml");
+            docObj.LoadXml(re);
+
+            var root = docObj.DocumentElement;
+            Console.WriteLine(root["arr"].InnerText);
+        }
     }
 }
