@@ -1,4 +1,5 @@
 using Finaviaapi.Http;
+using Finaviaapi.Files;
 
 namespace Finaviaapi.Util
 {
@@ -48,6 +49,16 @@ namespace Finaviaapi.Util
             var re = await apiObj.GetArrivalStrAsync(airport);
 
             Console.WriteLine(re);
+        }
+
+        /*Files Tests*/
+
+        static public async Task WriteToFileTestWritingToFile(int airport)
+        {
+            var re = await apiObj.GetArrivalStrAsync(airport);
+            Console.WriteLine(re);
+            
+            WriteToFile.Write("Current", ".xml", re);
         }
 
     }
