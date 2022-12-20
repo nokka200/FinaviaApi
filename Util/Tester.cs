@@ -85,8 +85,6 @@ namespace Finaviaapi.Util
             re = File.ReadAllText(currentPath + "/TestXml.xml");
             docObj.LoadXml(re);
 
-            var root = docObj.DocumentElement;
-            Console.WriteLine(root["arr"].InnerText);
         }
     }
 }
