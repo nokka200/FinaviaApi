@@ -13,3 +13,6 @@ https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/seria
 
 Read XML data from a URL
 https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/csharp/language-compilers/read-xml-data-from-url?source=recommendations
+
+Examples of XML serialization
+https://learn.microsoft.com/en-us/dotnet/standard/serialization/examples-of-xml-serialization?source=recommendations
