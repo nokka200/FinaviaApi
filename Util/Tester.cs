@@ -69,8 +69,12 @@ namespace Finaviaapi.Util
         static public void SerializeFlight()
         {
             string currentPath = Directory.GetCurrentDirectory();
+            Flights flightObj;
 
-            object tempObj = MyObjectSerializer.ReadObject(currentPath + "/TestXml.xml", typeof(FlightTimes));
+            object tempObj = MyObjectSerializer.ReadObject(currentPath + "/TestXml.xml", typeof(Flights));
+
+            flightObj = (Flights) tempObj;
+
         }
 
         /// <summary>
