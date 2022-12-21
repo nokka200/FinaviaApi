@@ -15,7 +15,7 @@ namespace Finaviaapi
             //var re = Tester.WriteToFileTestWritingToFile(3);
             //await re;
 
-            Tester.SerializeFlight();
+            Tester.SerializeFlightSingle();
 
             //Tester.XmlDocument();
         }

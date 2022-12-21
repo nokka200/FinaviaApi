@@ -66,16 +66,29 @@ namespace Finaviaapi.Util
 
         /*Serializer Tests*/
 
-        static public void SerializeFlight()
+        /// <summary>
+        /// Test deseralizing flightdata from a xml file, just a single flight data
+        /// </summary>
+        static public void SerializeFlightSingle()
         {
-            string currentPath = Directory.GetCurrentDirectory();
-            Flights flightObj;
+            Flights flightObj = SerializeFlightData();
+            Console.WriteLine(flightObj.arr.flight[0].hApt);
 
-            object tempObj = MyObjectSerializer.ReadObject(currentPath + "/TestXml.xml", typeof(Flights));
+        }
 
-            flightObj = (Flights) tempObj;
-            Console.WriteLine(flightObj.arr.header.description);
+        
+        /// <summary>
+        /// Test printing all info from flight array
+        /// </summary>
+        static public void SerializePrintAllInfo()
+        {
+            Flights flightObj = SerializeFlightData();
 
+            // NOTICE overriding null protection !
+            foreach(var item in flightObj!.arr!.flight!)
+            {
+                
+            }
         }
 
         /// <summary>
@@ -90,6 +103,18 @@ namespace Finaviaapi.Util
             re = File.ReadAllText(currentPath + "/TestXml.xml");
             docObj.LoadXml(re);
 
+        }
+
+        // Private methods
+        private static Flights SerializeFlightData()
+        {
+            string currentPath = Directory.GetCurrentDirectory();
+            Flights flightObj;
+
+            object tempObj = MyObjectSerializer.ReadObject(currentPath + "/TestXml.xml", typeof(Flights));
+
+            flightObj = (Flights)tempObj;
+            return flightObj;
         }
     }
 }

@@ -45,6 +45,43 @@
             <bltarea/>
             <callsign>LAV5245</callsign>
          </flight>
+         <flight>
+            <h_apt>RVN</h_apt>
+            <fltnr>AY545</fltnr>
+            <sdt>2022-12-17T12:30:00Z</sdt>
+            <sdate>20221217</sdate>
+            <acreg>OHLKM</acreg>
+            <actype>E190</actype>
+            <mfltnr/>
+            <cflight_1/>
+            <cflight_2/>
+            <cflight_3/>
+            <cflight_4/>
+            <cflight_5/>
+            <cflight_6/>
+            <route_1>HEL</route_1>
+            <route_2/>
+            <route_3/>
+            <route_4/>
+            <route_n_1>Helsinki</route_n_1>
+            <route_n_2/>
+            <route_n_3/>
+            <route_n_4/>
+            <park/>
+            <park_prv/>
+            <gate/>
+            <gate_prv/>
+            <prm>A</prm>
+            <prt>Landed</prt>
+            <prt_f>Laskeutunut</prt_f>
+            <prt_s>Landat</prt_s>
+            <est_d>2022-12-17T12:40:00Z</est_d>
+            <pest_d>2022-12-17T12:40:00Z</pest_d>
+            <act_d>2022-12-17T12:40:00Z</act_d>
+            <ablk_d/>
+            <bltarea/>
+            <callsign>FIN545</callsign>
+         </flight>
       </body>
    </arr>
 </flights>
