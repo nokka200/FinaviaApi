@@ -74,6 +74,7 @@ namespace Finaviaapi.Util
             object tempObj = MyObjectSerializer.ReadObject(currentPath + "/TestXml.xml", typeof(Flights));
 
             flightObj = (Flights) tempObj;
+            Console.WriteLine(flightObj.arr.header.description);
 
         }
 
