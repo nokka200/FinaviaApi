@@ -132,19 +132,47 @@ namespace Finaviaapi.Util
         private static void DataPrinter(flight item)
         {
             DateTime estArrival;
-            DateTime departTime;
+            DateTime arrivalTime;
+            ConsoleColor foreground = Console.ForegroundColor;
 
-            DateTime.TryParse(item.sdt, out departTime);
-            DateTime.TryParse(item.estD, out estArrival); // BUG needs to know it estDis empty
+            DateTime.TryParse(item.sdt, out arrivalTime);
+            DateTime.TryParse(item.estD, out estArrival); 
 
+            // Methods that check stuff
+            estArrival = CheckEstimate(item, estArrival, arrivalTime);
 
-            Console.WriteLine($"Lennon numero: {item.fltnr}, {item.cflight1}" +
+            Console.WriteLine($"Lennon numero:\t {item.fltnr}, {item.cflight1}" +
                 $", {item.cflight2}, {item.cflight3}, {item.cflight4}, {item.cflight5}" +
                 $", {item.cflight6}");
-            Console.WriteLine($"Lähtöaika: {departTime}");
-            Console.WriteLine($"Tila: {item.prtF}");
-            Console.WriteLine($"Arvioitu: {estArrival}");
+            Console.WriteLine($"Saapumisaika:\t {arrivalTime}");
+            Console.WriteLine($"Tila:\t\t {item.prtF}");
+
+            // change color based on estimate time and arrival time
+            if (estArrival < arrivalTime)
+                Console.ForegroundColor = ConsoleColor.Green;
+            else if(estArrival > arrivalTime)
+                Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Arvioitu:\t {estArrival}");
+            Console.ForegroundColor = foreground;
+
             Console.WriteLine("--------------------");
+        }
+
+        /// <summary>
+        /// Checks if estimate is empyt, if empyt uses same time as arrival
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="estArrival"></param>
+        /// <param name="arrivalTime"></param>
+        /// <returns></returns>
+        private static DateTime CheckEstimate(flight item, DateTime estArrival, DateTime arrivalTime)
+        {
+            if (item.estD == string.Empty)
+            {
+                estArrival = arrivalTime;
+            }
+
+            return estArrival;
         }
     }
 }
