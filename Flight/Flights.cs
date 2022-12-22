@@ -42,58 +42,58 @@ namespace Finaviaapi.Flight
         public string? actype;
         [XmlElement(IsNullable = false)]
         public string? mfltnr;
-        [XmlElement(IsNullable = false, ElementName = "cflight1")]
-        public string? cflight_1;
-        [XmlElement(IsNullable = false, ElementName = "cflight2")]
-        public string? cflight_2;
-        [XmlElement(IsNullable = false, ElementName = "cflight3")]
-        public string? cflight_3;
-        [XmlElement(IsNullable = false, ElementName = "cflight4")]
-        public string? cflight_4;
-        [XmlElement(IsNullable = false, ElementName = "cflight5")]
-        public string? cflight_5;
-        [XmlElement(IsNullable = false, ElementName = "cflight6")]
-        public string? cflight_6;
-        [XmlElement(IsNullable = false, ElementName = "route1")]
-        public string? route_1;
-        [XmlElement(IsNullable = false, ElementName = "route2")]
-        public string? route_2;
-        [XmlElement(IsNullable = false, ElementName = "route3")]
-        public string? route_3;
-        [XmlElement(IsNullable = false, ElementName = "route4")]
-        public string? route_4;
-        [XmlElement(IsNullable = false, ElementName = "routeN1")]
-        public string? route_n_1;
-        [XmlElement(IsNullable = false, ElementName = "routeN2")]
-        public string? route_n_2;
-        [XmlElement(IsNullable = false, ElementName = "routeN3")]
-        public string? route_n_3;
-        [XmlElement(IsNullable = false, ElementName = "routeN4")]
-        public string? route_n_4;
+        [XmlElement(IsNullable = false, ElementName = "cflight_1")]
+        public string? cflight1;
+        [XmlElement(IsNullable = false, ElementName = "cflight_2")]
+        public string? cflight2;
+        [XmlElement(IsNullable = false, ElementName = "cflight_3")]
+        public string? cflight3;
+        [XmlElement(IsNullable = false, ElementName = "cflight_4")]
+        public string? cflight4;
+        [XmlElement(IsNullable = false, ElementName = "cflight_5")]
+        public string? cflight5;
+        [XmlElement(IsNullable = false, ElementName = "cflight_6")]
+        public string? cflight6;
+        [XmlElement(IsNullable = false, ElementName = "route_1")]
+        public string? route1;
+        [XmlElement(IsNullable = false, ElementName = "route_2")]
+        public string? route2;
+        [XmlElement(IsNullable = false, ElementName = "route_3")]
+        public string? route3;
+        [XmlElement(IsNullable = false, ElementName = "route_4")]
+        public string? route4;
+        [XmlElement(IsNullable = false, ElementName = "route_n_1")]
+        public string? routeN1;
+        [XmlElement(IsNullable = false, ElementName = "route_n_2")]
+        public string? routeN2;
+        [XmlElement(IsNullable = false, ElementName = "route_n_3")]
+        public string? routeN3;
+        [XmlElement(IsNullable = false, ElementName = "route_n_4")]
+        public string? routeN4;
         [XmlElement(IsNullable = false)]
         public string? park;
-        [XmlElement(IsNullable = false, ElementName = "parkPrv")]
-        public string? park_prv;
+        [XmlElement(IsNullable = false, ElementName = "park_prv")]
+        public string? parkPrv;
         [XmlElement(IsNullable = false)]
         public string? gate;
-        [XmlElement(IsNullable = false, ElementName = "gatePrv")]
-        public string? gate_prv;
+        [XmlElement(IsNullable = false, ElementName = "gate_prv")]
+        public string? gatePrv;
         [XmlElement(IsNullable = false)]
         public string? prm;
         [XmlElement(IsNullable = false)]
         public string? prt;
-        [XmlElement(IsNullable = false, ElementName = "prtF")]
-        public string? prt_f;
-        [XmlElement(IsNullable = false, ElementName = "prtS")]
-        public string? prt_s;
-        [XmlElement(IsNullable = false, ElementName = "prtD")]
-        public string? est_d;
-        [XmlElement(IsNullable = false, ElementName = "pestD")]
-        public string? pest_d;
-        [XmlElement(IsNullable = false, ElementName = "actD")]
-        public string? act_d;
-        [XmlElement(IsNullable = false, ElementName = "ablkD")]
-        public string? ablk_d;
+        [XmlElement(IsNullable = false, ElementName = "prt_f")]
+        public string? prtF;
+        [XmlElement(IsNullable = false, ElementName = "prt_s")]
+        public string? prtS;
+        [XmlElement(IsNullable = false, ElementName = "est_d")]
+        public string? estD;
+        [XmlElement(IsNullable = false, ElementName = "pest_d")]
+        public string? pestD;
+        [XmlElement(IsNullable = false, ElementName = "act_d")]
+        public string? actD;
+        [XmlElement(IsNullable = false, ElementName = "ablk_d")]
+        public string? ablkD;
         [XmlElement(IsNullable = false)]
         public string? bltarea;
         [XmlElement(IsNullable = false)]

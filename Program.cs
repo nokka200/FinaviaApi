@@ -12,12 +12,14 @@ namespace Finaviaapi
             //var re = Tester.ApiConnectorTestArrivaAirport(3);
             //await re;
 
-            //var re = Tester.WriteToFileTestWritingToFile(3);
-            //await re;
+            var re = Tester.WriteToFileTestWritingToFile(3);
+            await re;
 
-            Tester.SerializeFlightSingle();
+            //Tester.SerializeFlightSingle();
 
             //Tester.XmlDocument();
+
+            Tester.SerializePrintAllInfo();
         }
     }
 }

@@ -59,7 +59,6 @@ namespace Finaviaapi.Util
         static public async Task WriteToFileTestWritingToFile(int airport)
         {
             var re = await apiObj.GetArrivalStrAsync(airport);
-            Console.WriteLine(re);
             
             WriteToFile.Write("Current", ".xml", re);
         }
@@ -71,24 +70,28 @@ namespace Finaviaapi.Util
         /// </summary>
         static public void SerializeFlightSingle()
         {
-            Flights flightObj = SerializeFlightData();
+            Flights flightObj = SerializeFlightData("TestXml");
             Console.WriteLine(flightObj.arr.flight[0].hApt);
 
         }
 
         
         /// <summary>
-        /// Test printing all info from flight array
+        /// Test printing all info from flight array, gets the current data from the api and displays it in the console
         /// </summary>
         static public void SerializePrintAllInfo()
         {
-            Flights flightObj = SerializeFlightData();
+            Flights flightObj = SerializeFlightData("Current");
 
-            // NOTICE overriding null protection !
-            foreach(var item in flightObj!.arr!.flight!)
+            if(flightObj != null && flightObj.arr != null && flightObj.arr.flight != null)
             {
-                
+                // NOTICE overriding null protection !
+                foreach (var item in flightObj.arr.flight)
+                {
+                    DataPrinter(item);
+                }
             }
+            
         }
 
         /// <summary>
@@ -106,15 +109,42 @@ namespace Finaviaapi.Util
         }
 
         // Private methods
-        private static Flights SerializeFlightData()
+        /// <summary>
+        /// Deserializes .xml file to flight object
+        /// </summary>
+        /// <param name="fileName">name of the file without the suffix</param>
+        /// <returns></returns>
+        private static Flights SerializeFlightData(string fileName)
         {
             string currentPath = Directory.GetCurrentDirectory();
             Flights flightObj;
 
-            object tempObj = MyObjectSerializer.ReadObject(currentPath + "/TestXml.xml", typeof(Flights));
+            object tempObj = MyObjectSerializer.ReadObject(currentPath + "/" + fileName + ".xml", typeof(Flights));
 
             flightObj = (Flights)tempObj;
             return flightObj;
+        }
+
+        /// <summary>
+        /// Prints flight data in a nice format
+        /// </summary>
+        /// <param name="item"></param>
+        private static void DataPrinter(flight item)
+        {
+            DateTime estArrival;
+            DateTime departTime;
+
+            DateTime.TryParse(item.sdt, out departTime);
+            DateTime.TryParse(item.estD, out estArrival); // BUG needs to know it estDis empty
+
+
+            Console.WriteLine($"Lennon numero: {item.fltnr}, {item.cflight1}" +
+                $", {item.cflight2}, {item.cflight3}, {item.cflight4}, {item.cflight5}" +
+                $", {item.cflight6}");
+            Console.WriteLine($"Lähtöaika: {departTime}");
+            Console.WriteLine($"Tila: {item.prtF}");
+            Console.WriteLine($"Arvioitu: {estArrival}");
+            Console.WriteLine("--------------------");
         }
     }
 }
