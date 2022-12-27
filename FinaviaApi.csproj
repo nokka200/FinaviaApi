@@ -9,8 +9,10 @@
 
   <ItemGroup>
     <None Remove="Serializer\" />
+    <None Remove="Ui\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Serializer\" />
+    <Folder Include="Ui\" />
   </ItemGroup>
 </Project>

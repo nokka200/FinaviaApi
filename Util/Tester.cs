@@ -2,6 +2,7 @@ using Finaviaapi.Http;
 using Finaviaapi.Files;
 using Finaviaapi.Serializer;
 using Finaviaapi.Flight;
+using Finaviaapi.Ui;
 using System.Xml;
 
 namespace Finaviaapi.Util
@@ -18,6 +19,14 @@ namespace Finaviaapi.Util
 
         // classes
         static ApiConnector apiObj = new(BASE_URI, APP_ID, APP_KEY);
+        static ConsoleUi conUiObj = new("Current");
+
+        /*ConsoleUi Tests*/
+        static public void TestUi()
+        {
+            conUiObj.UpdateData();
+            conUiObj.PrintAllInfoDate();
+        }
 
         /*ApiConnector Tests*/
 
@@ -92,6 +101,27 @@ namespace Finaviaapi.Util
                 }
             }
             
+        }
+
+        /// <summary>
+        /// Test printing all info from flight array, gets the current data from the api and displays it in the console for current date 
+        /// </summary>
+        static public void SerializePrintAllInfoDate()
+        {
+            Flights flightObj = SerializeFlightData("Current");
+            DateTime arrival;
+
+            if (flightObj != null && flightObj.arr != null && flightObj.arr.flight != null)
+            {
+                // NOTICE overriding null protection !
+                foreach (var item in flightObj.arr.flight)
+                {
+                    DateTime.TryParse(item.sdt, out arrival);
+                    if (arrival.Date == DateTime.Now.Date)
+                        DataPrinter(item);
+                }
+            }
+
         }
 
         /// <summary>
