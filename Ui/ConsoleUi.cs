@@ -7,7 +7,7 @@ namespace Finaviaapi.Ui
 	public class ConsoleUi
 	{
         // fields
-		Flights flightObj;
+		Flights? flightObj;
 
         // properties
         public string FileName { get;}
@@ -16,7 +16,6 @@ namespace Finaviaapi.Ui
         public ConsoleUi(string fileName)
 		{
             FileName = fileName;
-            flightObj = SerializeFlightData(FileName);
 		}
 
         // private methods
@@ -49,10 +48,9 @@ namespace Finaviaapi.Ui
             Console.WriteLine("--------------------");
         }
 
-        private static Flights SerializeFlightData(string fileName)
+        private Flights SerializeFlightData(string fileName)
         {
             string currentPath = Directory.GetCurrentDirectory();
-            Flights flightObj;
 
             object tempObj = MyObjectSerializer.ReadObject(currentPath + "/" + fileName + ".xml", typeof(Flights));
 
@@ -85,7 +83,7 @@ namespace Finaviaapi.Ui
         /// </summary>
         public void PrintAllInfoDate()
         {
-            Flights flightObj = SerializeFlightData(FileName);
+            flightObj = SerializeFlightData(FileName);
             DateTime arrival;
 
             if (flightObj != null && flightObj.arr != null && flightObj.arr.flight != null)

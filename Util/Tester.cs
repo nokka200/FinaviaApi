@@ -68,7 +68,7 @@ namespace Finaviaapi.Util
         static public async Task WriteToFileTestWritingToFile(int airport)
         {
             var re = await apiObj.GetArrivalStrAsync(airport);
-            
+
             WriteToFile.Write("Current", ".xml", re);
         }
 
