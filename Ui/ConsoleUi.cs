@@ -11,11 +11,13 @@ namespace Finaviaapi.Ui
 
         // properties
         public string FileName { get;}
+        public int HourDifference { get; set; }
 
         // constructor
         public ConsoleUi(string fileName)
 		{
             FileName = fileName;
+            HourDifference = 2;
 		}
 
         // private methods
@@ -79,7 +81,7 @@ namespace Finaviaapi.Ui
         }
 
         /// <summary>
-        /// Prints all the info in a nice format
+        /// Prints all the info in a nice format, hour now + HourDifference property
         /// </summary>
         public void PrintAllInfoDate()
         {
@@ -92,7 +94,7 @@ namespace Finaviaapi.Ui
                 foreach (var item in flightObj.arr.flight)
                 {
                     DateTime.TryParse(item.sdt, out arrival);
-                    if (arrival.Date == DateTime.Now.Date)
+                    if (arrival.Date == DateTime.Now.Date && arrival.Hour < (DateTime.Now.Hour + HourDifference))
                         DataPrinter(item);
                 }
             }
