@@ -22,6 +22,9 @@ namespace Finaviaapi.Util
         static ConsoleUi conUiObj = new("Current");
 
         /*ConsoleUi Tests*/
+        /// <summary>
+        /// Updates data and prints flight info 
+        /// </summary>
         static public void TestUi()
         {
             conUiObj.UpdateData();
@@ -65,6 +68,11 @@ namespace Finaviaapi.Util
 
         /*Files Tests*/
 
+        /// <summary>
+        /// Gets the arrival data async and creates a Current.xml file from it
+        /// </summary>
+        /// <param name="airport"></param>
+        /// <returns></returns>
         static public async Task WriteToFileTestWritingToFile(int airport)
         {
             var re = await apiObj.GetArrivalStrAsync(airport);
@@ -74,15 +82,6 @@ namespace Finaviaapi.Util
 
         /*Serializer Tests*/
 
-        /// <summary>
-        /// Test deseralizing flightdata from a xml file, just a single flight data
-        /// </summary>
-        static public void SerializeFlightSingle()
-        {
-            Flights flightObj = SerializeFlightData("TestXml");
-            Console.WriteLine(flightObj.arr.flight[0].hApt);
-
-        }
 
         
         /// <summary>
