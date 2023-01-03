@@ -22,3 +22,9 @@ Todo
 
 Lentojen tiedon palautus formatoidussa stringissä
 tietty aikaväli jolla kyselee lentoja.
+
+Ohjelman toiminta
+
+1) ApiConnector tekee async pyynnon palvelimelle ja palauttaa string muodossa lastin.
+2) WriteToFile kirjoittaa lastin Current.xml tiedostoksi
+3) ConsoleUi olio luodaan, tekee Flight olion Current.xml pohjalta
