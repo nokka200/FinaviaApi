@@ -70,12 +70,20 @@ namespace Finaviaapi.Ui
             return estArrival;
         }
 
+        private void PrintMetaData(Flights item)
+        {
+            var flightItem = item.arr.flight[0];
+            Console.WriteLine($"Lentoasema: {flightItem.hApt}");
+            Console.WriteLine("--------------------");
+
+        }
+
         // public methods
 
         /// <summary>
         /// Updates the flight data
         /// </summary>
-        public void UpdateData()
+        public void UpdateDataLocal()
         {
             flightObj = SerializeFlightData(FileName);
         }
@@ -90,7 +98,7 @@ namespace Finaviaapi.Ui
 
             if (flightObj != null && flightObj.arr != null && flightObj.arr.flight != null)
             {
-                // NOTICE overriding null protection !
+                PrintMetaData(flightObj);
                 foreach (var item in flightObj.arr.flight)
                 {
                     DateTime.TryParse(item.sdt, out arrival);
@@ -98,7 +106,12 @@ namespace Finaviaapi.Ui
                         DataPrinter(item);
                 }
             }
+            else
+            {
+                Console.WriteLine("No flight found");
+            }
         }
     }
 }
 
+            

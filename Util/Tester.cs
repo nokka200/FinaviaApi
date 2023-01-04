@@ -23,11 +23,11 @@ namespace Finaviaapi.Util
 
         /*ConsoleUi Tests*/
         /// <summary>
-        /// Updates data and prints flight info 
+        /// Updates data from local file and prints flight info 
         /// </summary>
         static public void TestUi()
         {
-            conUiObj.UpdateData();
+            conUiObj.UpdateDataLocal();
             conUiObj.PrintAllInfoDate();
         }
 
@@ -93,7 +93,6 @@ namespace Finaviaapi.Util
 
             if(flightObj != null && flightObj.arr != null && flightObj.arr.flight != null)
             {
-                // NOTICE overriding null protection !
                 foreach (var item in flightObj.arr.flight)
                 {
                     DataPrinter(item);

@@ -19,11 +19,13 @@ namespace Finaviaapi
 
             //Tester.XmlDocument();
 
-            
+            Console.Clear();
             while(true)
             {
                 var re = Tester.WriteToFileTestWritingToFile(3);
-                await re;
+                //await re;
+                re.Wait();
+                
                 Console.WriteLine(DateTime.Now);
 
                 Tester.TestUi();
