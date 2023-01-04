@@ -1,6 +1,7 @@
 ﻿using System;
 using Finaviaapi.Flight;
 using Finaviaapi.Serializer;
+using Finaviaapi.Http;
 
 namespace Finaviaapi.Ui
 {
@@ -8,6 +9,10 @@ namespace Finaviaapi.Ui
 	{
         // fields
 		Flights? flightObj;
+        ApiConnector apiObj;
+        const string BASE_URI = "https://api.finavia.fi/flights/public/v0/flights/";
+        const string APP_ID = "FINAVIA_APP_ID";
+        const string APP_KEY = "FINAVIA_APP_KEY";
 
         // properties
         public string FileName { get;}
@@ -18,7 +23,8 @@ namespace Finaviaapi.Ui
 		{
             FileName = fileName;
             HourDifference = 2;
-		}
+            apiObj = new(BASE_URI, APP_ID, APP_KEY);
+        }
 
         // private methods
         private static void DataPrinter(flight item)
@@ -79,6 +85,16 @@ namespace Finaviaapi.Ui
         }
 
         // public methods
+
+        public async Task PrintAndUpdateAsync(int refreshInterval, int airport)
+        {
+            // TODO kopio Program.cs ajo tähän metodiksi
+            Console.Clear();
+            while(true)
+            {
+                var re = await apiObj.GetArrivalStrAsync(airport);
+            }
+        }
 
         /// <summary>
         /// Updates the flight data
