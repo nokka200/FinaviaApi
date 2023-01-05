@@ -2,6 +2,7 @@
 using Finaviaapi.Flight;
 using Finaviaapi.Serializer;
 using Finaviaapi.Http;
+using Finaviaapi.Files;
 
 namespace Finaviaapi.Ui
 {
@@ -66,6 +67,13 @@ namespace Finaviaapi.Ui
             return flightObj;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="estArrival"></param>
+        /// <param name="arrivalTime"></param>
+        /// <returns></returns>
         private static DateTime CheckEstimate(flight item, DateTime estArrival, DateTime arrivalTime)
         {
             if (item.estD == string.Empty)
@@ -76,8 +84,19 @@ namespace Finaviaapi.Ui
             return estArrival;
         }
 
+        /// <summary>
+        /// Prints flight/airport metadata 
+        /// </summary>
+        /// <param name="item"></param>
         private void PrintMetaData(Flights item)
         {
+            // null check
+            if(item == null || item.arr == null || item.arr.flight == null)
+            {
+                Console.WriteLine("Flight data null");
+                return;
+            }
+                
             var flightItem = item.arr.flight[0];
             Console.WriteLine($"Lentoasema: {flightItem.hApt}");
             Console.WriteLine("--------------------");
@@ -86,13 +105,23 @@ namespace Finaviaapi.Ui
 
         // public methods
 
-        public async Task PrintAndUpdateAsync(int refreshInterval, int airport)
+        public async Task PrintAndUpdateAsync(int refreshInterval, int airport, int waitTime)
         {
             // TODO kopio Program.cs ajo tähän metodiksi
             Console.Clear();
             while(true)
             {
                 var re = await apiObj.GetArrivalStrAsync(airport);
+                
+                WriteToFile.Write(FileName, ".xml", re);
+
+                Console.WriteLine(DateTime.Now);
+
+                UpdateDataLocal();
+                PrintAllInfoDate();
+
+                Thread.Sleep(waitTime);
+                Console.Clear();
             }
         }
 
