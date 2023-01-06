@@ -72,6 +72,8 @@ namespace Finaviaapi.Http
             );
             clientObj.DefaultRequestHeaders.Add(ID, System.Environment.GetEnvironmentVariable(AppIdEnv));
             clientObj.DefaultRequestHeaders.Add(KEY, System.Environment.GetEnvironmentVariable(AppKeyEnv));
+            Console.WriteLine($"id: {System.Environment.GetEnvironmentVariable(AppIdEnv)}");
+            Console.WriteLine($"key: {System.Environment.GetEnvironmentVariable(AppKeyEnv)}");
         }
     }
 }

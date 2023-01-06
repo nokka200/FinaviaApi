@@ -19,16 +19,17 @@ namespace Finaviaapi.Util
 
         // classes
         static ApiConnector apiObj = new(BASE_URI, APP_ID, APP_KEY);
-        static ConsoleUi conUiObj = new("Current");
+        static ConsoleUi conUiObj = new("Current", 50000);
 
         /*ConsoleUi Tests*/
+
         /// <summary>
-        /// Updates data from local file and prints flight info 
+        /// Testing method PrintAndUpdateAsync
         /// </summary>
-        static public void TestUi()
+        /// <returns></returns>
+        static public async Task TestUiPrintAndUpdateAsync()
         {
-            conUiObj.UpdateDataLocal();
-            conUiObj.PrintAllInfoDate();
+            await conUiObj.PrintAndUpdateAsync(3);
         }
 
         /*ApiConnector Tests*/

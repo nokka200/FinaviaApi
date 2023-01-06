@@ -1,10 +1,11 @@
 ﻿using Finaviaapi.Util;
+using Finaviaapi.Ui;
 
 namespace Finaviaapi
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             // Tester.ApiConnectorTestProperties();
             //await Tester.ApiConnectorTestConnection();
@@ -19,6 +20,7 @@ namespace Finaviaapi
 
             //Tester.XmlDocument();
 
+            /*
             Console.Clear();
             while(true)
             {
@@ -32,8 +34,13 @@ namespace Finaviaapi
 
                 Thread.Sleep(20000);
                 Console.Clear();
-            }
-            
+            }*/
+
+            //await Tester.TestUiPrintAndUpdateAsync();
+
+            ConsoleUi consoleObj = new("Current", 50000);
+            consoleObj.HourDifference = 24;
+            await consoleObj.PrintAndUpdateAsync(3);
         }
     }
 }

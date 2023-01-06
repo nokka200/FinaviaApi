@@ -6,6 +6,9 @@ using Finaviaapi.Files;
 
 namespace Finaviaapi.Ui
 {
+    /// <summary>
+    /// Represents a console unserinterface for tracking flights in Finavias airports
+    /// </summary>
 	public class ConsoleUi
 	{
         // fields
@@ -17,13 +20,14 @@ namespace Finaviaapi.Ui
 
         // properties
         public string FileName { get;}
-        public int HourDifference { get; set; }
+        public int HourDifference { get; set; } = 2;
+        public int RefreshInterval { get; set; }
 
         // constructor
-        public ConsoleUi(string fileName)
+        public ConsoleUi(string fileName, int refreshInterval)
 		{
             FileName = fileName;
-            HourDifference = 2;
+            RefreshInterval = refreshInterval;
             apiObj = new(BASE_URI, APP_ID, APP_KEY);
         }
 
@@ -98,37 +102,16 @@ namespace Finaviaapi.Ui
             }
                 
             var flightItem = item.arr.flight[0];
+            Console.WriteLine(DateTime.Now);
             Console.WriteLine($"Lentoasema: {flightItem.hApt}");
+            Console.WriteLine($"Päivitys aika/sec: {RefreshInterval / 1000}");
             Console.WriteLine("--------------------");
-
-        }
-
-        // public methods
-
-        public async Task PrintAndUpdateAsync(int refreshInterval, int airport, int waitTime)
-        {
-            // TODO kopio Program.cs ajo tähän metodiksi
-            Console.Clear();
-            while(true)
-            {
-                var re = await apiObj.GetArrivalStrAsync(airport);
-                
-                WriteToFile.Write(FileName, ".xml", re);
-
-                Console.WriteLine(DateTime.Now);
-
-                UpdateDataLocal();
-                PrintAllInfoDate();
-
-                Thread.Sleep(waitTime);
-                Console.Clear();
-            }
         }
 
         /// <summary>
         /// Updates the flight data
         /// </summary>
-        public void UpdateDataLocal()
+        private void UpdateDataLocal()
         {
             flightObj = SerializeFlightData(FileName);
         }
@@ -136,7 +119,7 @@ namespace Finaviaapi.Ui
         /// <summary>
         /// Prints all the info in a nice format, hour now + HourDifference property
         /// </summary>
-        public void PrintAllInfoDate()
+        private void PrintAllInfoDate()
         {
             flightObj = SerializeFlightData(FileName);
             DateTime arrival;
@@ -156,6 +139,24 @@ namespace Finaviaapi.Ui
                 Console.WriteLine("No flight found");
             }
         }
+
+        // public methods
+        public async Task PrintAndUpdateAsync(int airport)
+        {
+            Console.Clear();
+            while(true)
+            {
+                var re = await apiObj.GetArrivalStrAsync(airport);
+                
+                WriteToFile.Write(FileName, ".xml", re);
+
+                UpdateDataLocal();
+                PrintAllInfoDate();
+
+                Thread.Sleep(RefreshInterval);
+                Console.Clear();
+            }
+        }       
     }
 }
 
