@@ -19,7 +19,7 @@ namespace Finaviaapi.Util
 
         // classes
         static ApiConnector apiObj = new(BASE_URI, APP_ID, APP_KEY);
-        static ConsoleUi conUiObj = new("Current", 50000);
+        static ConsoleUi conUiObj = new("Current");
 
         /*ConsoleUi Tests*/
 

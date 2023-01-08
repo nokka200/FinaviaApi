@@ -11,29 +11,34 @@ namespace Finaviaapi.Ui
     /// </summary>
 	public class ConsoleUi
 	{
-        // fields
+        // FIELDS
 		Flights? flightObj;
         ApiConnector apiObj;
         const string BASE_URI = "https://api.finavia.fi/flights/public/v0/flights/";
         const string APP_ID = "FINAVIA_APP_ID";
         const string APP_KEY = "FINAVIA_APP_KEY";
 
-        // properties
+        // PROPERTIES
         public string FileName { get;}
         public int HourDifference { get; set; } = 2;
-        public int RefreshInterval { get; set; }
+        /// <summary>
+        /// Time between new call's to Finavpia API MIN time should be 20000 milliseconds
+        /// </summary>
+        public int RefreshInterval { get; set; } = 20000;
 
-        // constructor
-        public ConsoleUi(string fileName, int refreshInterval)
+        // CONSTRUCTOR
+        public ConsoleUi(string fileName)
 		{
+            // Also constructs an ApiConnector object with BASE_URI, APP_ID and APP_KEY
             FileName = fileName;
-            RefreshInterval = refreshInterval;
             apiObj = new(BASE_URI, APP_ID, APP_KEY);
         }
 
-        // private methods
+        // PRIVATE METHODS
         private static void DataPrinter(flight item)
         {
+            // First compated estimated arrival time with arrival time, then prints a the information in a 
+            // formated form.
             DateTime estArrival;
             DateTime arrivalTime;
             ConsoleColor foreground = Console.ForegroundColor;
@@ -55,6 +60,7 @@ namespace Finaviaapi.Ui
                 Console.ForegroundColor = ConsoleColor.Green;
             else if (estArrival > arrivalTime)
                 Console.ForegroundColor = ConsoleColor.Red;
+
             Console.WriteLine($"Arvioitu:\t {estArrival}");
             Console.ForegroundColor = foreground;
 
@@ -63,6 +69,7 @@ namespace Finaviaapi.Ui
 
         private Flights SerializeFlightData(string fileName)
         {
+            // Gets the current working directory and serializes a Flight object from the information.
             string currentPath = Directory.GetCurrentDirectory();
 
             object tempObj = MyObjectSerializer.ReadObject(currentPath + "/" + fileName + ".xml", typeof(Flights));
@@ -108,11 +115,9 @@ namespace Finaviaapi.Ui
             Console.WriteLine("--------------------");
         }
 
-        /// <summary>
-        /// Updates the flight data
-        /// </summary>
         private void UpdateDataLocal()
         {
+            // Updates the Flight object with new data from Current.xml
             flightObj = SerializeFlightData(FileName);
         }
 
@@ -140,9 +145,19 @@ namespace Finaviaapi.Ui
             }
         }
 
-        // public methods
+        // PUBLIC METHODS
+
+        /// <summary>
+        /// Makes an async call to Finavia api, creates a .xml file and updates Flights objects with the current data.
+        /// </summary>
+        /// <param name="airport">Airport from list</param>
+        /// <returns></returns>
         public async Task PrintAndUpdateAsync(int airport)
         {
+            // Clears console and then enters an eternal loop.
+            // First gets the current data from the finavia api and writes it to Current.xml
+            // Updates flightObj with the new data and prints it. 
+            // sleeps the tread for X amount of time and finally clears the screen.
             Console.Clear();
             while(true)
             {

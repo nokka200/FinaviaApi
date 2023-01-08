@@ -38,7 +38,8 @@ namespace Finaviaapi
 
             //await Tester.TestUiPrintAndUpdateAsync();
 
-            ConsoleUi consoleObj = new("Current", 50000);
+            ConsoleUi consoleObj = new("Current");
+            consoleObj.RefreshInterval = 50000;
             consoleObj.HourDifference = 24;
             await consoleObj.PrintAndUpdateAsync(3);
         }

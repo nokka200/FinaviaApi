@@ -19,11 +19,20 @@ namespace Finaviaapi.Http
         {"all", "arr", "dep"};
         public List<string> ParametersAirport { get; } = new()
         {"not_hel", "all", "HEL", "RVN"};
+        /// <summary>
+        /// Retrieves environment varialbe named this as app id.
+        /// </summary>
         public string AppIdEnv { get; }
+        /// <summary>
+        /// Retrieves environment varialbe named this as app key.
+        /// </summary>
         public string AppKeyEnv { get; }
 
         public ApiConnector(string uri, string appIdEnv, string appKeyEnv)
         {
+            // Creates a uri object using the uri as parameter and assings clientObj BaseAddress as uirObj.
+            // Finally sets up header info using app id and app key environment values.
+
             UriObj = new(uri);
             clientObj.BaseAddress = UriObj;
             AppIdEnv = appIdEnv;
@@ -72,8 +81,6 @@ namespace Finaviaapi.Http
             );
             clientObj.DefaultRequestHeaders.Add(ID, System.Environment.GetEnvironmentVariable(AppIdEnv));
             clientObj.DefaultRequestHeaders.Add(KEY, System.Environment.GetEnvironmentVariable(AppKeyEnv));
-            Console.WriteLine($"id: {System.Environment.GetEnvironmentVariable(AppIdEnv)}");
-            Console.WriteLine($"key: {System.Environment.GetEnvironmentVariable(AppKeyEnv)}");
         }
     }
 }
