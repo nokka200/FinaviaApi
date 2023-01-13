@@ -38,6 +38,15 @@ namespace Finaviaapi
 
             //await Tester.TestUiPrintAndUpdateAsync();
 
+
+            //Tester.DiscordUiCreateClass();
+            await Tester.DiscordUiEchoMessage();
+
+            //await RunConsole();
+        }
+
+        private static async Task RunConsole()
+        {
             ConsoleUi consoleObj = new("Current");
             consoleObj.RefreshInterval = 50000;
             consoleObj.HourDifference = 24;

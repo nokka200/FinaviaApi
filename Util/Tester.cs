@@ -4,6 +4,9 @@ using Finaviaapi.Serializer;
 using Finaviaapi.Flight;
 using Finaviaapi.Ui;
 using System.Xml;
+using FinaviaApi.Ui;
+using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 
 namespace Finaviaapi.Util
 {
@@ -17,9 +20,31 @@ namespace Finaviaapi.Util
         const string APP_ID = "FINAVIA_APP_ID";
         const string APP_KEY = "FINAVIA_APP_KEY";
 
+        const string DISCORD_APP_TOKEN = "WorkFinaviaBotToken";
+        const string DISCORD_APP_ID= "DISCORD_APP_ID";
+        const string DISCORD_APP_KEY = "DISCORD_APP_KEY";
+
         // classes
         static ApiConnector apiObj = new(BASE_URI, APP_ID, APP_KEY);
         static ConsoleUi conUiObj = new("Current");
+        /*DiscordUi Tests*/
+
+        /// <summary>
+        /// Test creating an instance of the DiscordUi class
+        /// </summary>
+        static public void DiscordUiCreateClass()
+        {
+            Console.WriteLine("Value: " + Environment.GetEnvironmentVariable(DISCORD_APP_TOKEN));
+            DiscordUi botObj = new(DISCORD_APP_ID, DISCORD_APP_KEY, DISCORD_APP_TOKEN);
+        }
+
+        static public async Task DiscordUiEchoMessage()
+        {
+            DiscordUi botObj = new(DISCORD_APP_ID, DISCORD_APP_KEY, DISCORD_APP_TOKEN);
+            botObj.EchoOnMessage();
+            await botObj.DiscordBotObj.ConnectAsync();
+            await Task.Delay(-1);
+        }
 
         /*ConsoleUi Tests*/
 
