@@ -1,5 +1,5 @@
-﻿using DSharpPlus;
-using DSharpPlus.Entities;
+﻿using Discord;
+using Discord.WebSocket;
 
 namespace FinaviaApi.Ui
 {
@@ -9,37 +9,47 @@ namespace FinaviaApi.Ui
     public class DiscordUi
     {
         // fields
-        
+        const string BOT_NAME = "Finavia";
 
         // properties
-        public string AppId { get;}
-        public string AppKEy { get;}
-        public string AppToken { get;} // Bot token is important
-        public DiscordClient DiscordBotObj { get;}
+        public string? AppToken { get;} // Bot token is important
+        public DiscordSocketClient Client { get; }
 
-        public DiscordUi(string appId, string appKey, string appToken)
+        public DiscordUi(string appToken)
         {
-            AppId = appId;
-            AppKEy = appKey;
-            AppToken = appToken;
-
-            DiscordBotObj = new DiscordClient(new DiscordConfiguration()
-            {
-                Token = Environment.GetEnvironmentVariable(AppToken),
-                TokenType = TokenType.Bot,
-            });
+            AppToken = Environment.GetEnvironmentVariable(appToken);
+            Client = new();
+            
         }
 
-        public void EchoOnMessage()
+        // public methods
+        public async Task StartApp()
         {
-            DiscordBotObj.MessageCreated += async (client, args) =>
-            {
-                if(args.Message.Content.StartsWith("ping"))
-                {
-                    await client.SendMessageAsync(args.Channel, "ping");
-                }
-            };
+            Client.Log += Log;
+
+            await Client.LoginAsync(TokenType.Bot, AppToken);
+
+            Client.MessageReceived += ClientOnMessageReceivedAsync;
+
+            await Client.StartAsync();
+
+            await Task.Delay(-1);
+
         }
-       
+
+        // private methods
+        private Task Log(LogMessage msg)
+        {
+            Console.WriteLine(msg.ToString());
+            return Task.CompletedTask;
+        }
+        private static Task ClientOnMessageReceivedAsync(SocketMessage arg)
+        {
+            if (arg.Author.Username != BOT_NAME)
+                arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' successfully ran helloworld!");
+
+            return Task.CompletedTask;
+        }
     }
+
 }

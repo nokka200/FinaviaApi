@@ -15,6 +15,6 @@
     <Folder Include="Serializer\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DSharpPlus" Version="4.3.0" />
+    <PackageReference Include="Discord.Net" Version="3.9.0" />
   </ItemGroup>
 </Project>

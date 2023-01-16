@@ -21,8 +21,6 @@ namespace Finaviaapi.Util
         const string APP_KEY = "FINAVIA_APP_KEY";
 
         const string DISCORD_APP_TOKEN = "WorkFinaviaBotToken";
-        const string DISCORD_APP_ID= "DISCORD_APP_ID";
-        const string DISCORD_APP_KEY = "DISCORD_APP_KEY";
 
         // classes
         static ApiConnector apiObj = new(BASE_URI, APP_ID, APP_KEY);
@@ -30,20 +28,14 @@ namespace Finaviaapi.Util
         /*DiscordUi Tests*/
 
         /// <summary>
-        /// Test creating an instance of the DiscordUi class
+        /// Test Discord bots echo method
         /// </summary>
-        static public void DiscordUiCreateClass()
+        /// <returns></returns>
+        static public async Task TestDiscordUiEchoBot()
         {
-            Console.WriteLine("Value: " + Environment.GetEnvironmentVariable(DISCORD_APP_TOKEN));
-            DiscordUi botObj = new(DISCORD_APP_ID, DISCORD_APP_KEY, DISCORD_APP_TOKEN);
-        }
+            DiscordUi botObj = new(DISCORD_APP_TOKEN);
 
-        static public async Task DiscordUiEchoMessage()
-        {
-            DiscordUi botObj = new(DISCORD_APP_ID, DISCORD_APP_KEY, DISCORD_APP_TOKEN);
-            botObj.EchoOnMessage();
-            await botObj.DiscordBotObj.ConnectAsync();
-            await Task.Delay(-1);
+            await botObj.StartApp();
         }
 
         /*ConsoleUi Tests*/

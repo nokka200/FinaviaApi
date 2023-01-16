@@ -40,7 +40,7 @@ namespace Finaviaapi
 
 
             //Tester.DiscordUiCreateClass();
-            await Tester.DiscordUiEchoMessage();
+            await Tester.TestDiscordUiEchoBot();
 
             //await RunConsole();
         }
