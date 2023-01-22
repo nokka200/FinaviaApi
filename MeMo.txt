@@ -17,6 +17,8 @@ https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/csharp/lan
 Examples of XML serialization
 https://learn.microsoft.com/en-us/dotnet/standard/serialization/examples-of-xml-serialization?source=recommendations
 
+Discord Api
+https://discordnet.dev/guides/introduction/intro.html
 
 Todo
 

@@ -1,10 +1,11 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using System.Diagnostics;
 
 namespace FinaviaApi.Ui
 {
     /// <summary>
-    /// Discordbot ui class, used to make call's to finavia api and displau results
+    /// Discordbot ui class, used to make call's to finavia api and display results
     /// </summary>
     public class DiscordUi
     {
@@ -43,12 +44,23 @@ namespace FinaviaApi.Ui
             Console.WriteLine(msg.ToString());
             return Task.CompletedTask;
         }
-        private static Task ClientOnMessageReceivedAsync(SocketMessage arg)
+        private Task ClientOnMessageReceivedAsync(SocketMessage arg)
         {
             if (arg.Author.Username != BOT_NAME)
+            {
                 arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' successfully ran helloworld!");
-
+                DebugPrint($"User '{arg.Author.Username}' successfully ran helloworld!");
+            }
+                
             return Task.CompletedTask;
+        }
+
+        private void DebugPrint(string content)
+        {
+            // used only for logging and debugging
+
+            DateTime timeNow = DateTime.Now;
+            Console.WriteLine($"{timeNow} \t{content}");
         }
     }
 
