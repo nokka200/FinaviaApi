@@ -11,6 +11,8 @@ namespace FinaviaApi.Ui
     {
         // fields
         const string BOT_NAME = "Finavia";
+        const string COMMAND_NAME = "first";
+        const string COMMAND_DESCRIPTION = "This is my first global slash command";
 
         // properties
         public string? AppToken { get;} // Bot token is important
@@ -24,9 +26,15 @@ namespace FinaviaApi.Ui
         }
 
         // public methods
+        /// <summary>
+        /// Sets up and starts the bot
+        /// </summary>
+        /// <returns></returns>
         public async Task StartApp()
         {
-            Client.Log += Log;
+            Client.Log += Log;                  // Assing logging
+            Client.Ready += ClientReadyAsync;   // assing slash commands
+            Client.SlashCommandExecuted += SlashCommandHandlerAsync;
 
             await Client.LoginAsync(TokenType.Bot, AppToken);
 
@@ -37,6 +45,8 @@ namespace FinaviaApi.Ui
             await Task.Delay(-1);
 
         }
+
+        
 
         // private methods
         private Task Log(LogMessage msg)
@@ -49,7 +59,7 @@ namespace FinaviaApi.Ui
             if (arg.Author.Username != BOT_NAME)
             {
                 arg.Channel.SendMessageAsync($"User '{arg.Author.Username}' successfully ran helloworld!");
-                DebugPrint($"User '{arg.Author.Username}' successfully ran helloworld!");
+                DebugPrint($"User {arg.Author.Username} {arg.ToString()}");   
             }
                 
             return Task.CompletedTask;
@@ -61,6 +71,26 @@ namespace FinaviaApi.Ui
 
             DateTime timeNow = DateTime.Now;
             Console.WriteLine($"{timeNow} \t{content}");
+        }
+
+        private async Task ClientReadyAsync()
+        {
+            // Code copied from manual!
+
+            // Build the command
+            var globalCommand = new SlashCommandBuilder();
+
+            // assing name and description
+            globalCommand.WithName(COMMAND_NAME);
+            globalCommand.WithDescription(COMMAND_DESCRIPTION);
+
+            await Client.CreateGlobalApplicationCommandAsync(globalCommand.Build());
+
+        }
+
+        private async Task SlashCommandHandlerAsync(SocketSlashCommand arg)
+        {
+            await arg.RespondAsync($"You executed {arg.Data.Name}");
         }
     }
 
