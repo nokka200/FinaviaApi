@@ -33,7 +33,7 @@ namespace Finaviaapi.Util
         /// <returns></returns>
         static public async Task TestDiscordUiEchoBot()
         {
-            DiscordUi botObj = new(DISCORD_APP_TOKEN);
+            DiscordUi botObj = new(DISCORD_APP_TOKEN, "Current");
 
             await botObj.StartApp();
         }
