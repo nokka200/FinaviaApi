@@ -106,9 +106,10 @@ namespace FinaviaApi.Ui
         private async Task SlashCommandHandlerAsync(SocketSlashCommand arg)
         {
             //await arg.RespondAsync($"You executed {arg.Data.Name}");
+            DateTime arrival;
 
             // Gives did not respond error
-            while(true) 
+            while (true) 
             {
                 
                 //await Task.Delay(RefreshInterval);
@@ -117,9 +118,12 @@ namespace FinaviaApi.Ui
 
                 foreach(var item in flightObj.arr.flight)
                 {
-                    await arg.Channel.SendMessageAsync(item.fltnr);
+                    DateTime.TryParse(item.sdt, out arrival);
+
+                    if (arrival.Date == DateTime.Now.Date && arrival.Hour < (DateTime.Now.Hour + HourDifference))
+                        await arg.Channel.SendMessageAsync(FormatFlight(item));   
                 }
-                await arg.Channel.SendMessageAsync("-----");
+                await arg.Channel.SendMessageAsync("---------------");
                 Thread.Sleep(RefreshInterval);
             }
         }
@@ -147,6 +151,38 @@ namespace FinaviaApi.Ui
 
             flightObj = (Flights)tempObj;
             return flightObj;
+        }
+
+        private string FormatFlight(flight item)
+        {
+            string re;
+            // First compated estimated arrival time with arrival time, then prints a the information in a 
+            // formated form.
+            DateTime estArrival;
+            DateTime arrivalTime;
+
+            DateTime.TryParse(item.sdt, out arrivalTime);
+            DateTime.TryParse(item.estD, out estArrival);
+
+            // Methods that check stuff
+            estArrival = CheckEstimate(item, estArrival, arrivalTime);
+
+            re = $"Lennon numero:\t {item.fltnr}, {item.cflight1} {item.cflight2}, {item.cflight3}, {item.cflight4}, {item.cflight5} {item.cflight6}\n" +
+                $"Saapumisaika:\t {arrivalTime}\n" +
+                $"Tila:\t\t {item.prtF}\n" +
+                $"Arvioitu:\t {estArrival}";
+
+            return re;
+        }
+
+        private static DateTime CheckEstimate(flight item, DateTime estArrival, DateTime arrivalTime)
+        {
+            if (item.estD == string.Empty)
+            {
+                estArrival = arrivalTime;
+            }
+
+            return estArrival;
         }
 
     }
