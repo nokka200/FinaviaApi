@@ -5,6 +5,7 @@ using System.Text;
 using Finaviaapi.Http;
 using Finaviaapi.Flight;
 using Finaviaapi.Files;
+using Finaviaapi.Serializer;
 
 namespace FinaviaApi.Ui
 {
@@ -30,6 +31,7 @@ namespace FinaviaApi.Ui
         public int RefreshInterval { get; set; } = 20000;
         public int HourDifference { get; set; } = 24;
         public string FileName { get; }
+        public int Airport { get;} = 3;
 
         public DiscordUi(string appToken, string fileName)
         {
@@ -108,20 +110,43 @@ namespace FinaviaApi.Ui
             // Gives did not respond error
             while(true) 
             {
-                await arg.Channel.SendMessageAsync("Spuha");
+                
                 //await Task.Delay(RefreshInterval);
+                await CreateFlightDataAsync(Airport);
+                UpdateDataLocal();
+
+                foreach(var item in flightObj.arr.flight)
+                {
+                    await arg.Channel.SendMessageAsync(item.fltnr);
+                }
+                await arg.Channel.SendMessageAsync("-----");
                 Thread.Sleep(RefreshInterval);
             }
         }
 
-        private async Task<string> CreateAndUpdateFlightData(int airport)
+        private async Task CreateFlightDataAsync(int airport)
         {
             // Used to get new data and format a string
 
             var re = await apiObj.GetArrivalStrAsync(airport);
             WriteToFile.Write(FileName, ".xml", re);
+        }
 
-            return string.Empty;
+        private void UpdateDataLocal()
+        {
+            // Updates the Flight object with new data from Current.xml
+            flightObj = SerializeFlightData(FileName);
+        }
+
+        private Flights SerializeFlightData(string fileName)
+        {
+            // Gets the current working directory and serializes a Flight object from the information.
+            string currentPath = Directory.GetCurrentDirectory();
+
+            object tempObj = MyObjectSerializer.ReadObject(currentPath + "/" + fileName + ".xml", typeof(Flights));
+
+            flightObj = (Flights)tempObj;
+            return flightObj;
         }
 
     }
