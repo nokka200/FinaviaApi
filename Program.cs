@@ -40,9 +40,9 @@ namespace Finaviaapi
 
 
             //Tester.DiscordUiCreateClass();
-            await Tester.TestDiscordUiEchoBot();
+            //await Tester.TestDiscordUiEchoBot();
 
-            //await RunConsole();
+            await RunConsole();
         }
 
         private static async Task RunConsole()

@@ -28,7 +28,7 @@ namespace FinaviaApi.Ui
         // properties
         public string? AppToken { get;} // Bot token is important
         public DiscordSocketClient Client { get; }
-        public int RefreshInterval { get; set; } = 20000;
+        public int RefreshInterval { get; set; } = 90000;
         public int HourDifference { get; set; } = 24;
         public string FileName { get; }
         public int Airport { get;} = 3;
