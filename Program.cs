@@ -42,15 +42,23 @@ namespace Finaviaapi
             //Tester.DiscordUiCreateClass();
             //await Tester.TestDiscordUiEchoBot();
 
-            await RunConsole();
+            await RunConsole(2, 1);
         }
 
-        private static async Task RunConsole()
+        private static async Task RunConsole(int airport)
         {
             ConsoleUi consoleObj = new("Current");
             consoleObj.RefreshInterval = 50000;
             consoleObj.HourDifference = 24;
-            await consoleObj.PrintAndUpdateAsync(3);
+            await consoleObj.PrintAndUpdateAsync(airport);
+        }
+
+        private static async Task RunConsole(int airport, int hourLimit)
+        {
+            ConsoleUi consoleObj = new("Current");
+            consoleObj.RefreshInterval = 50000;
+            consoleObj.HourDifference = 24;
+            await consoleObj.PrintAndUpdateAsync(airport, hourLimit);
         }
     }
 }

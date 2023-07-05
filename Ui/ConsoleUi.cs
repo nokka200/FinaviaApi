@@ -17,6 +17,7 @@ namespace Finaviaapi.Ui
         const string BASE_URI = "https://api.finavia.fi/flights/public/v0/flights/";
         const string APP_ID = "FINAVIA_APP_ID";
         const string APP_KEY = "FINAVIA_APP_KEY";
+        int refreshCount;
 
         // PROPERTIES
         public string FileName { get;}
@@ -112,6 +113,7 @@ namespace Finaviaapi.Ui
             Console.WriteLine(DateTime.Now);
             Console.WriteLine($"Lentoasema: {flightItem.hApt}");
             Console.WriteLine($"Päivitys aika/sec: {RefreshInterval / 1000}");
+            Console.WriteLine($"Kierros: {refreshCount}");
             Console.WriteLine("--------------------");
         }
 
@@ -124,18 +126,37 @@ namespace Finaviaapi.Ui
         /// <summary>
         /// Prints all the info in a nice format, hour now + HourDifference property
         /// </summary>
-        private void PrintAllInfoDate()
+        private void PrintAllInfo()
         {
             flightObj = SerializeFlightData(FileName);
-            DateTime arrival;
 
             if (flightObj != null && flightObj.arr != null && flightObj.arr.flight != null)
             {
                 PrintMetaData(flightObj);
                 foreach (var item in flightObj.arr.flight)
                 {
-                    DateTime.TryParse(item.sdt, out arrival);
+                    DateTime.TryParse(item.sdt, out DateTime arrival);
                     if (arrival.Date == DateTime.Now.Date && arrival.Hour < (DateTime.Now.Hour + HourDifference))
+                        DataPrinter(item);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No flight found");
+            }
+        }
+
+        private void PrintAllInfo(int hourLimit)
+        {
+            flightObj = SerializeFlightData(FileName);
+
+            if (flightObj != null && flightObj.arr != null && flightObj.arr.flight != null)
+            {
+                PrintMetaData(flightObj);
+                foreach (var item in flightObj.arr.flight)
+                {
+                    DateTime.TryParse(item.sdt, out DateTime arrival);
+                    if (arrival.Date == DateTime.Now.Date && arrival.Hour < DateTime.Now.AddHours(hourLimit).Hour && arrival.Hour > DateTime.Now.Hour - 1)
                         DataPrinter(item);
                 }
             }
@@ -162,16 +183,38 @@ namespace Finaviaapi.Ui
             while(true)
             {
                 var re = await apiObj.GetArrivalStrAsync(airport);
+                refreshCount++;
                 
                 WriteToFile.Write(FileName, ".xml", re);
 
                 UpdateDataLocal();
-                PrintAllInfoDate();
+                PrintAllInfo();
 
                 Thread.Sleep(RefreshInterval);
                 Console.Clear();
             }
-        }       
+        }    
+        public async Task PrintAndUpdateAsync(int airport, int hourLimit)
+        {
+            // Clears console and then enters an eternal loop.
+            // First gets the current data from the finavia api and writes it to Current.xml
+            // Updates flightObj with the new data and prints it. 
+            // sleeps the tread for X amount of time and finally clears the screen.
+            Console.Clear();
+            while(true)
+            {
+                var re = await apiObj.GetArrivalStrAsync(airport);
+                refreshCount++;
+                
+                WriteToFile.Write(FileName, ".xml", re);
+
+                UpdateDataLocal();
+                PrintAllInfo(hourLimit);
+
+                Thread.Sleep(RefreshInterval);
+                Console.Clear();
+            }
+        }     
     }
 }
 
