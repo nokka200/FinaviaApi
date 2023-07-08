@@ -212,6 +212,7 @@ namespace Finaviaapi.Ui
 
                     UpdateDataLocal();
                     PrintAllInfo(hourLimit);
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
                 }
                 catch (Exception ex)
                 {
