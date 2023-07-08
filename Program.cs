@@ -47,17 +47,21 @@ namespace Finaviaapi
 
         private static async Task RunConsole(int airport)
         {
-            ConsoleUi consoleObj = new("Current");
-            consoleObj.RefreshInterval = 50000;
-            consoleObj.HourDifference = 24;
+            ConsoleUi consoleObj = new("Current")
+            {
+                RefreshInterval = 50000,
+                HourDifference = 24
+            };
             await consoleObj.PrintAndUpdateAsync(airport);
         }
 
         private static async Task RunConsole(int airport, int hourLimit)
         {
-            ConsoleUi consoleObj = new("Current");
-            consoleObj.RefreshInterval = 50000;
-            consoleObj.HourDifference = 24;
+            ConsoleUi consoleObj = new("Current")
+            {
+                RefreshInterval = 50000,
+                HourDifference = 24
+            };
             await consoleObj.PrintAndUpdateAsync(airport, hourLimit);
         }
     }

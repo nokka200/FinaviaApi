@@ -203,13 +203,21 @@ namespace Finaviaapi.Ui
             Console.Clear();
             while(true)
             {
-                var re = await apiObj.GetArrivalStrAsync(airport);
-                refreshCount++;
-                
-                WriteToFile.Write(FileName, ".xml", re);
+                try
+                {
+                    var re = await apiObj.GetArrivalStrAsync(airport);
+                    refreshCount++;
+                    
+                    WriteToFile.Write(FileName, ".xml", re);
 
-                UpdateDataLocal();
-                PrintAllInfo(hourLimit);
+                    UpdateDataLocal();
+                    PrintAllInfo(hourLimit);
+                }
+                catch (Exception ex)
+                {
+                    // Log the error
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
 
                 Thread.Sleep(RefreshInterval);
                 Console.Clear();
