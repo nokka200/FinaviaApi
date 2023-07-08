@@ -211,6 +211,7 @@ namespace Finaviaapi.Ui
                     WriteToFile.Write(FileName, ".xml", re);
 
                     UpdateDataLocal();
+                    Console.WriteLine(new string('*', 20));
                     PrintAllInfo(hourLimit);
                     Console.SetCursorPosition(0, Console.CursorTop - 1);
                 }
@@ -222,6 +223,10 @@ namespace Finaviaapi.Ui
 
                 Thread.Sleep(RefreshInterval);
                 Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
             }
         }     
     }
