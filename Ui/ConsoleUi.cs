@@ -54,9 +54,25 @@ namespace Finaviaapi.Ui
                 $", {item.cflight2}, {item.cflight3}, {item.cflight4}, {item.cflight5}" +
                 $", {item.cflight6}");
             Console.WriteLine($"Saapumisaika:\t {arrivalTime}");
-            Console.WriteLine($"Tila:\t\t {item.prtF}");
 
-            // change color based on estimate time and arrival time
+            ChangeColorState(item, foreground);
+
+            // change color based on estimate time and arrival time and writes it
+            ChangeColorArrival(estArrival, arrivalTime, foreground);
+
+            Console.WriteLine("--------------------");
+        }
+
+        private static void ChangeColorState(flight item, ConsoleColor foreground)
+        {
+            if (item.prtF.ToLower() == "laskeutunut")
+                Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine($"Tila:\t\t {item.prtF}");
+            Console.ForegroundColor = foreground;
+        }
+
+        private static void ChangeColorArrival(DateTime estArrival, DateTime arrivalTime, ConsoleColor foreground)
+        {
             if (estArrival < arrivalTime)
                 Console.ForegroundColor = ConsoleColor.Green;
             else if (estArrival > arrivalTime)
@@ -64,8 +80,6 @@ namespace Finaviaapi.Ui
 
             Console.WriteLine($"Arvioitu:\t {estArrival}");
             Console.ForegroundColor = foreground;
-
-            Console.WriteLine("--------------------");
         }
 
         private Flights SerializeFlightData(string fileName)
