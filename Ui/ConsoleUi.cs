@@ -65,7 +65,7 @@ namespace Finaviaapi.Ui
         {
             // Gets the time difference between estimated arrival time and arrival time
             TimeSpan timeDifference = estArrival - arrivalTime;
-            return Math.Round(timeDifference.TotalMinutes, 2);
+            return Math.Abs(Math.Round(timeDifference.TotalMinutes));
         }
         private static void ChangeColorState(flight item, ConsoleColor foreground)
         {
