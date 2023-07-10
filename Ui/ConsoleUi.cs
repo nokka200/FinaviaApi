@@ -67,6 +67,9 @@ namespace Finaviaapi.Ui
         {
             if (item.prtF.ToLower() == "laskeutunut")
                 Console.ForegroundColor = ConsoleColor.Blue;
+            if (item.prtF.ToLower() == "lähestyy")
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
             Console.WriteLine($"Tila:\t\t {item.prtF}");
             Console.ForegroundColor = foreground;
         }
