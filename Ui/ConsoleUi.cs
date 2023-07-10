@@ -54,17 +54,24 @@ namespace Finaviaapi.Ui
                 $", {item.cflight2}, {item.cflight3}, {item.cflight4}, {item.cflight5}" +
                 $", {item.cflight6}");
             Console.WriteLine($"Saapumisaika:\t {arrivalTime}");
-
             ChangeColorState(item, foreground);
 
             // change color based on estimate time and arrival time and writes it
             ChangeColorArrival(estArrival, arrivalTime, foreground);
-
             Console.WriteLine("--------------------");
         }
 
+        private static double GetTimeDifference(DateTime estArrival, DateTime arrivalTime)
+        {
+            // Gets the time difference between estimated arrival time and arrival time
+            TimeSpan timeDifference = estArrival - arrivalTime;
+            return Math.Round(timeDifference.TotalMinutes, 2);
+        }
         private static void ChangeColorState(flight item, ConsoleColor foreground)
         {
+            if (item.prtF == null)
+                return;
+
             if (item.prtF.ToLower() == "laskeutunut")
                 Console.ForegroundColor = ConsoleColor.Blue;
             if (item.prtF.ToLower() == "lähestyy")
@@ -82,6 +89,8 @@ namespace Finaviaapi.Ui
                 Console.ForegroundColor = ConsoleColor.Red;
 
             Console.WriteLine($"Arvioitu:\t {estArrival}");
+            double timeDifference = GetTimeDifference(estArrival, arrivalTime);
+            Console.WriteLine($"Erotus:\t\t {timeDifference}");
             Console.ForegroundColor = foreground;
         }
 
@@ -172,9 +181,20 @@ namespace Finaviaapi.Ui
                 PrintMetaData(flightObj);
                 foreach (var item in flightObj.arr.flight)
                 {
-                    DateTime.TryParse(item.sdt, out DateTime arrival);
-                    if (arrival.Date == DateTime.Now.Date && arrival.Hour < DateTime.Now.AddHours(hourLimit).Hour && arrival.Hour > DateTime.Now.Hour - 1)
-                        DataPrinter(item);
+                    bool re = DateTime.TryParse(item.sdt, out DateTime arrival);
+                    if(re)
+                    {
+                        // Prints only IF
+                        // 1. Arrival date is today. Makes sure that only shows todays flights NOTE, when date changes
+                        // 2. Arrival hour is less than time now + hourLimit added to this. This makes we only show a limited amount of flights
+                        // 3. Arrival hour is more than time now hours - 1 hour, this shows later fligths that are still in the air
+                        if (arrival.Date == DateTime.Now.Date && arrival.Hour < DateTime.Now.AddHours(hourLimit).Hour && arrival.Hour > DateTime.Now.Hour - 1)
+                            DataPrinter(item);
+                    }
+                    else 
+                    {
+                        Console.WriteLine("Error parsing date");
+                    }
                 }
             }
             else
