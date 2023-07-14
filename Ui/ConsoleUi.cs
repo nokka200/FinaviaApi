@@ -10,17 +10,17 @@ namespace Finaviaapi.Ui
     /// Represents a console unserinterface for tracking flights in Finavias airports
     /// </summary>
 	public class ConsoleUi
-	{
+    {
         // FIELDS
-		Flights? flightObj;
-        ApiConnector apiObj;
+        Flights? flightObj;
+        readonly ApiConnector apiObj;
         const string BASE_URI = "https://api.finavia.fi/flights/public/v0/flights/";
         const string APP_ID = "FINAVIA_APP_ID";
         const string APP_KEY = "FINAVIA_APP_KEY";
         int refreshCount;
 
         // PROPERTIES
-        public string FileName { get;}
+        public string FileName { get; }
         public int HourDifference { get; set; } = 2;
         /// <summary>
         /// Time between new call's to Finavpia API MIN time should be 20000 milliseconds
@@ -29,7 +29,7 @@ namespace Finaviaapi.Ui
 
         // CONSTRUCTOR
         public ConsoleUi(string fileName)
-		{
+        {
             // Also constructs an ApiConnector object with BASE_URI, APP_ID and APP_KEY
             FileName = fileName;
             apiObj = new(BASE_URI, APP_ID, APP_KEY);
@@ -40,16 +40,19 @@ namespace Finaviaapi.Ui
         {
             // First compated estimated arrival time with arrival time, then prints a the information in a 
             // formated form.
-            DateTime estArrival;
-            DateTime arrivalTime;
             ConsoleColor foreground = Console.ForegroundColor;
 
-            DateTime.TryParse(item.sdt, out arrivalTime);
-            DateTime.TryParse(item.estD, out estArrival);
+            bool arrivalRe = DateTime.TryParse(item.sdt, out DateTime arrivalTime);
+            bool estamateRe = DateTime.TryParse(item.estD, out DateTime estArrival);
 
-            // Methods that check stuff
+            // Check if the arrival time and estimate time are available
+            if (!arrivalRe || !estamateRe)
+            {
+                Console.WriteLine("Aika ei saatavilla");
+                return;
+            }
+
             estArrival = CheckEstimate(item, estArrival, arrivalTime);
-
             Console.WriteLine($"Lennon numero:\t {item.fltnr}, {item.cflight1}" +
                 $", {item.cflight2}, {item.cflight3}, {item.cflight4}, {item.cflight5}" +
                 $", {item.cflight6}");
@@ -129,12 +132,12 @@ namespace Finaviaapi.Ui
         private void PrintMetaData(Flights item)
         {
             // null check
-            if(item == null || item.arr == null || item.arr.flight == null)
+            if (item == null || item.arr == null || item.arr.flight == null)
             {
                 Console.WriteLine("Flight data null");
                 return;
             }
-                
+
             var flightItem = item.arr.flight[0];
             Console.WriteLine(DateTime.Now);
             Console.WriteLine($"Lentoasema: {flightItem.hApt}");
@@ -161,8 +164,8 @@ namespace Finaviaapi.Ui
                 PrintMetaData(flightObj);
                 foreach (var item in flightObj.arr.flight)
                 {
-                    DateTime.TryParse(item.sdt, out DateTime arrival);
-                    if (arrival.Date == DateTime.Now.Date && arrival.Hour < (DateTime.Now.Hour + HourDifference))
+                    bool arrivalRe = DateTime.TryParse(item.sdt, out DateTime arrival);
+                    if (arrival.Date == DateTime.Now.Date && arrival.Hour < (DateTime.Now.Hour + HourDifference) && arrivalRe)
                         DataPrinter(item);
                 }
             }
@@ -181,19 +184,16 @@ namespace Finaviaapi.Ui
                 PrintMetaData(flightObj);
                 foreach (var item in flightObj.arr.flight)
                 {
-                    bool re = DateTime.TryParse(item.sdt, out DateTime arrival);
-                    if(re)
+                    bool arrivalRe = DateTime.TryParse(item.sdt, out DateTime arrival);
+                    bool estArrivalRe = DateTime.TryParse(item.estD, out DateTime estArrival);
+                    if (arrivalRe && estArrivalRe)
                     {
                         // Prints only IF
                         // 1. Arrival date is today. Makes sure that only shows todays flights NOTE, when date changes
                         // 2. Arrival hour is less than time now + hourLimit added to this. This makes we only show a limited amount of flights
                         // 3. Arrival hour is more than time now hours - 1 hour, this shows later fligths that are still in the air
-                        if (arrival.Date == DateTime.Now.Date && arrival.Hour < DateTime.Now.AddHours(hourLimit).Hour && arrival.Hour > DateTime.Now.Hour - 1)
+                        if (arrival.Date == DateTime.Now.Date && arrival.Hour < DateTime.Now.AddHours(hourLimit).Hour && estArrival.Hour > DateTime.Now.Hour - 1)
                             DataPrinter(item);
-                    }
-                    else 
-                    {
-                        Console.WriteLine("Error parsing date");
                     }
                 }
             }
@@ -217,11 +217,11 @@ namespace Finaviaapi.Ui
             // Updates flightObj with the new data and prints it. 
             // sleeps the tread for X amount of time and finally clears the screen.
             Console.Clear();
-            while(true)
+            while (true)
             {
                 var re = await apiObj.GetArrivalStrAsync(airport);
                 refreshCount++;
-                
+
                 WriteToFile.Write(FileName, ".xml", re);
 
                 UpdateDataLocal();
@@ -230,7 +230,14 @@ namespace Finaviaapi.Ui
                 Thread.Sleep(RefreshInterval);
                 Console.Clear();
             }
-        }    
+        }
+
+        /// <summary>
+        /// Makes an async call to Finavia api, creates a .xml file and updates Flights objects with the current data.
+        /// </summary>
+        /// <param name="airport">Airport to track</param>
+        /// <param name="hourLimit">How long get flights</param>
+        /// <returns></returns>
         public async Task PrintAndUpdateAsync(int airport, int hourLimit)
         {
             // Clears console and then enters an eternal loop.
@@ -238,13 +245,13 @@ namespace Finaviaapi.Ui
             // Updates flightObj with the new data and prints it. 
             // sleeps the tread for X amount of time and finally clears the screen.
             Console.Clear();
-            while(true)
+            while (true)
             {
                 try
                 {
                     var re = await apiObj.GetArrivalStrAsync(airport);
                     refreshCount++;
-                    
+
                     WriteToFile.Write(FileName, ".xml", re);
 
                     UpdateDataLocal();
@@ -265,8 +272,7 @@ namespace Finaviaapi.Ui
                 Console.WriteLine();
                 Console.WriteLine();
             }
-        }     
+        }
     }
 }
 
-            
