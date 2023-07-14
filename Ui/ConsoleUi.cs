@@ -191,7 +191,7 @@ namespace Finaviaapi.Ui
                         // Prints only IF
                         // 1. Arrival date is today. Makes sure that only shows todays flights NOTE, when date changes
                         // 2. Arrival hour is less than time now + hourLimit added to this. This makes we only show a limited amount of flights
-                        // 3. Arrival hour is more than time now hours - 1 hour, this shows later fligths that are still in the air
+                        // 3. Estimated arrival hour is more than time now hours - 1 hour, this shows later fligths that are still in the air
                         if (arrival.Date == DateTime.Now.Date && arrival.Hour < DateTime.Now.AddHours(hourLimit).Hour && estArrival.Hour > DateTime.Now.Hour - 1)
                             DataPrinter(item);
                     }
