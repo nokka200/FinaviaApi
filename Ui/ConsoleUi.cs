@@ -18,6 +18,7 @@ namespace Finaviaapi.Ui
         const string APP_ID = "FINAVIA_APP_ID";
         const string APP_KEY = "FINAVIA_APP_KEY";
         int refreshCount;
+        readonly TimeOnly startTime;
 
         // PROPERTIES
         public string FileName { get; }
@@ -33,12 +34,13 @@ namespace Finaviaapi.Ui
             // Also constructs an ApiConnector object with BASE_URI, APP_ID and APP_KEY
             FileName = fileName;
             apiObj = new(BASE_URI, APP_ID, APP_KEY);
+            startTime = new TimeOnly(DateTime.Now.Hour, DateTime.Now.Minute);
         }
 
         // PRIVATE METHODS
         private static void DataPrinter(flight item)
         {
-            // First compated estimated arrival time with arrival time, then prints a the information in a 
+            // First compares estimated arrival time with arrival time, then prints a the information in a 
             // formated form.
             ConsoleColor foreground = Console.ForegroundColor;
 
@@ -143,6 +145,7 @@ namespace Finaviaapi.Ui
             Console.WriteLine($"Lentoasema: {flightItem.hApt}");
             Console.WriteLine($"Päivitys aika/sec: {RefreshInterval / 1000}");
             Console.WriteLine($"Kierros: {refreshCount}");
+            Console.WriteLine($"Aloitusaika: {startTime}");
             Console.WriteLine("--------------------");
         }
 
