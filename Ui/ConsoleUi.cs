@@ -58,6 +58,7 @@ namespace Finaviaapi.Ui
             Console.WriteLine($"Lennon numero:\t {item.fltnr}, {item.cflight1}" +
                 $", {item.cflight2}, {item.cflight3}, {item.cflight4}, {item.cflight5}" +
                 $", {item.cflight6}");
+            Console.WriteLine($"Lähtöpaikka:\t {item.routeN1}");
             Console.WriteLine($"Saapumisaika:\t {arrivalTime}");
             ChangeColorState(item, foreground);
 
@@ -178,6 +179,10 @@ namespace Finaviaapi.Ui
             }
         }
 
+        /// <summary>
+        /// Prints all the info in a nice format, hour now + HourDifference property
+        /// </summary>
+        /// <param name="hourLimit">How many hours from now</param>
         private void PrintAllInfo(int hourLimit)
         {
             flightObj = SerializeFlightData(FileName);
