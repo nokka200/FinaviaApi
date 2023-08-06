@@ -41,7 +41,7 @@ namespace Finaviaapi.Http
             SetUpHeaders();
         }
 
-        // public methods
+        // PUBLIC METHODS
 
         /// <summary>
         /// Checks the connection to the api
