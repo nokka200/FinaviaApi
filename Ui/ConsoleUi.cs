@@ -19,10 +19,9 @@ namespace Finaviaapi.Ui
         const string APP_KEY = "FINAVIA_APP_KEY";
         int refreshCount;
         readonly TimeOnly startTime;
+        string FileName { get; }
 
         // PROPERTIES
-        public string FileName { get; }
-
         /// <summary>
         /// Time between new call's to Finavpia API MIN time should be 20000 milliseconds
         /// </summary>
