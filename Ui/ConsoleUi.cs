@@ -169,14 +169,14 @@ namespace Finaviaapi.Ui
                 foreach (var item in flightObj.arr.flight)
                 {
                     bool arrivalRe = DateTime.TryParse(item.sdt, out DateTime arrival);
-                    bool estArrivalRe = DateTime.TryParse(item.estD, out DateTime estArrival);
+                    bool estArrivalRe = DateTime.TryParse(item.estD, out DateTime predictedEstamatedTime);
                     if (arrivalRe && estArrivalRe)
                     {
                         // Prints only IF
                         // 1. Arrival date is today. Makes sure that only shows todays flights NOTE, when date changes
                         // 2. Arrival hour is less than time now + hourLimit added to this. This makes we only show a limited amount of flights
                         // 3. Estimated arrival hour is more than time now hours - 1 hour, this shows later fligths that are still in the air
-                        if (arrival.Date == DateTime.Now.Date && arrival.Hour < DateTime.Now.AddHours(hourLimit).Hour && estArrival.Hour > DateTime.Now.Hour - 1)
+                        if (arrival.Date == DateTime.Now.Date && arrival.Hour < DateTime.Now.AddHours(hourLimit).Hour && predictedEstamatedTime.Hour > (DateTime.Now.Hour - 1))
                             DataPrinter(item);
                     }
                 }
