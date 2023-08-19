@@ -22,7 +22,7 @@ namespace Finaviaapi.Ui
 
         // PROPERTIES
         public string FileName { get; }
-        public int HourDifference { get; set; } = 2;
+
         /// <summary>
         /// Time between new call's to Finavpia API MIN time should be 20000 milliseconds
         /// </summary>
@@ -159,29 +159,6 @@ namespace Finaviaapi.Ui
         /// <summary>
         /// Prints all the info in a nice format, hour now + HourDifference property
         /// </summary>
-        private void PrintAllInfo()
-        {
-            flightObj = SerializeFlightData(FileName);
-
-            if (flightObj != null && flightObj.arr != null && flightObj.arr.flight != null)
-            {
-                PrintMetaData(flightObj);
-                foreach (var item in flightObj.arr.flight)
-                {
-                    bool arrivalRe = DateTime.TryParse(item.sdt, out DateTime arrival);
-                    if (arrival.Date == DateTime.Now.Date && arrival.Hour < (DateTime.Now.Hour + HourDifference) && arrivalRe)
-                        DataPrinter(item);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No flight found");
-            }
-        }
-
-        /// <summary>
-        /// Prints all the info in a nice format, hour now + HourDifference property
-        /// </summary>
         /// <param name="hourLimit">How many hours from now</param>
         private void PrintAllInfo(int hourLimit)
         {
@@ -212,33 +189,6 @@ namespace Finaviaapi.Ui
         }
 
         // PUBLIC METHODS
-
-        /// <summary>
-        /// Makes an async call to Finavia api, creates a .xml file and updates Flights objects with the current data.
-        /// </summary>
-        /// <param name="airport">Airport from list</param>
-        /// <returns></returns>
-        public async Task PrintAndUpdateAsync(int airport)
-        {
-            // Clears console and then enters an eternal loop.
-            // First gets the current data from the finavia api and writes it to Current.xml
-            // Updates flightObj with the new data and prints it. 
-            // sleeps the tread for X amount of time and finally clears the screen.
-            Console.Clear();
-            while (true)
-            {
-                var re = await apiObj.GetArrivalStrAsync(airport);
-                refreshCount++;
-
-                WriteToFile.Write(FileName, ".xml", re);
-
-                UpdateDataLocal();
-                PrintAllInfo();
-
-                Thread.Sleep(RefreshInterval);
-                Console.Clear();
-            }
-        }
 
         /// <summary>
         /// Makes an async call to Finavia api, creates a .xml file and updates Flights objects with the current data.

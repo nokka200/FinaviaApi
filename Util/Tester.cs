@@ -40,15 +40,6 @@ namespace Finaviaapi.Util
 
         /*ConsoleUi Tests*/
 
-        /// <summary>
-        /// Testing method PrintAndUpdateAsync
-        /// </summary>
-        /// <returns></returns>
-        static public async Task TestUiPrintAndUpdateAsync()
-        {
-            await conUiObj.PrintAndUpdateAsync(3);
-        }
-
         /*ApiConnector Tests*/
 
         /// <summary>

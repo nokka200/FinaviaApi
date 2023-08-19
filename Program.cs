@@ -20,8 +20,7 @@ namespace Finaviaapi
         {
             ConsoleUi consoleObj = new("Current")
             {
-                RefreshInterval = 50000,
-                HourDifference = 24
+                RefreshInterval = 50000
             };
             await consoleObj.PrintAndUpdateAsync(airport, hourLimit);
         }
